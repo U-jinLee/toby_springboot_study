@@ -24,6 +24,7 @@ public class HellobootApplication {
 		GenericApplicationContext applicationContext = new GenericApplicationContext();
 		//Bean 등록::클래스 정보 넘기기
 		applicationContext.registerBean(HelloController.class);
+		applicationContext.registerBean(SimpleHelloService.class);
 		applicationContext.refresh();
 
 		// Tomcat, Jetty .. 등을 추상화 해 놓음
