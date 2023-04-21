@@ -12,6 +12,15 @@ import org.springframework.web.servlet.DispatcherServlet;
 @Configuration
 @ComponentScan
 public class HellobootApplication {
+	@Bean
+	public ServletWebServerFactory servletWebServerFactory() {
+		return new TomcatServletWebServerFactory();
+	}
+	@Bean
+	public DispatcherServlet dispatcherServlet() {
+		return new DispatcherServlet();
+	}
+
 	public static void main(String[] args) {
 		//Spring Container
 		AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
@@ -20,15 +29,13 @@ public class HellobootApplication {
 				super.onRefresh();
 
 				// Tomcat, Jetty .. 등을 추상화 해 놓음
-				ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+				ServletWebServerFactory serverFactory = this.getBean(ServletWebServerFactory.class);
+				DispatcherServlet dispatcherServlet = this.getBean(DispatcherServlet.class);
+
 				WebServer webServer = serverFactory.getWebServer(servletContext -> {
 					//servlet mapping -> controller로 전환
-					servletContext.addServlet("dispatcherServlet",
-									//자기 자신을 참고하기에 this를 입력
-									new DispatcherServlet(this))
-							//URL의 매핑
+					servletContext.addServlet("dispatcherServlet", dispatcherServlet)
 							.addMapping("/*");
-
 				});
 				//TomcatServlet Container 동작
 				webServer.start();
