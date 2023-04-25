@@ -13,4 +13,10 @@ class HelloServiceTest {
         String result = helloService.sayHello("Spring");
         Assertions.assertThat(result).isEqualTo("Hello Spring");
     }
+
+    @Test
+    void helloDecorator() {
+        String result = new HelloDecorator(name -> name).sayHello("Spring");
+        Assertions.assertThat(result).isEqualTo("*Spring*");
+    }
 }

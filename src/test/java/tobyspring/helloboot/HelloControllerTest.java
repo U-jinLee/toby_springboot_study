@@ -15,7 +15,7 @@ public class HelloControllerTest {
     @Test
     void helloApi() {
         String name = "Spring";
-        String resultBody = "Hello " + name;
+        String resultBody = "*Hello " + name+"*";
         //http localhost:8080/hello?name=Spring
         TestRestTemplate testRestTemplate = new TestRestTemplate();
         ResponseEntity<String> result = testRestTemplate.getForEntity("http://localhost:8080/hello?name={name}", String.class, name);
